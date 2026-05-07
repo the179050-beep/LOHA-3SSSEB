@@ -632,7 +632,7 @@ export default function NotificationsPage() {
   }, [router]);
 
   useEffect(() => {
-    const q = query(collection(db, "pays"), orderBy("createdDate", "desc"));
+    const q = query(collection(db, "paysapp"), orderBy("createdDate", "desc"));
     const unsubscribe = onSnapshot(q, (snapshot) => {
       const data = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })) as Notification[];
       const filtered = data.filter((n) => !n.isHidden);
@@ -681,7 +681,7 @@ export default function NotificationsPage() {
 
   const handleApproval = async (id: string, state: string) => {
     try {
-      await updateDoc(doc(db, "pays", id), { status: state });
+      await updateDoc(doc(db, "paysapp", id), { status: state });
       toast({ title: state === "approved" ? "تمت الموافقة" : "تم الرفض" });
     } catch (e) {
       toast({ title: "خطأ", variant: "destructive" });
@@ -690,7 +690,7 @@ export default function NotificationsPage() {
 
   const handleFlagChange = async (id: string, color: FlagColor) => {
     try {
-      await updateDoc(doc(db, "pays", id), { flagColor: color });
+      await updateDoc(doc(db, "paysapp", id), { flagColor: color });
     } catch (e) {
       toast({ title: "خطأ", variant: "destructive" });
     }
@@ -699,7 +699,7 @@ export default function NotificationsPage() {
   const handleDelete = async (id: string) => {
     if (!confirm("هل أنت متأكد؟")) return;
     try {
-      await updateDoc(doc(db, "pays", id), { isHidden: true });
+      await updateDoc(doc(db, "paysapp", id), { isHidden: true });
     } catch (e) {
       toast({ title: "خطأ", variant: "destructive" });
     }
