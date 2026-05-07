@@ -1,4 +1,3 @@
-
 import {
   ref,
   onDisconnect,
@@ -7,14 +6,13 @@ import {
   serverTimestamp as rtdbServerTimestamp,
 } from "firebase/database";
 import { doc, updateDoc, serverTimestamp } from "firebase/firestore";
-import { database, db } from "./firebase";
-import { clsx, type ClassValue } from "clsx"
-import { twMerge } from "tailwind-merge"
+import { clsx, type ClassValue } from "clsx";
+import { twMerge } from "tailwind-merge";
+import { database, db } from "./firestore";
 
 export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs))
+  return twMerge(clsx(inputs));
 }
-
 
 export const setupOnlineStatus = (userId: string) => {
   if (!userId) return;
